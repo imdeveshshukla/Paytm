@@ -16,10 +16,14 @@ router.get("/bal",authenticate,async(req,res)=>{
     const account = await Account.findOne({
         user: userId
     });
-
+    const userdata = await User.findOne({
+        _id:userId
+    })
 
 
     res.json({
+        name:userdata.name,
+        email:userdata.username,
         balance: account.balance
     })
     

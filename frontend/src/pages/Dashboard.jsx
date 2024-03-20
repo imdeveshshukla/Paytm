@@ -6,6 +6,8 @@ import axios from "axios";
 
 function Dashboard(){
     const [bal,setBal] = useState(0);
+    const [name, setName] = useState("");
+    
     useEffect(()=>{
         axios.get("http://localhost:3000/api/v1/account/bal",{
             headers:{
@@ -14,11 +16,12 @@ function Dashboard(){
         })
         .then((val)=>{
             setBal(val.data.balance)
+            setName(val.data.name);
         })
     },[])
     return (
         <div >
-            <Appbar/>
+            <Appbar name={name}/>
             <div className="m-2">
                 <Balance value={bal}/>
             </div>

@@ -39,7 +39,7 @@ function Signup(){
               navigate("/dashboard");
             }
             else{
-              console.error("Error :"+res.data);
+              alert("Error :"+res.data);
             }
 
           }} label={"Sign Up"} />
