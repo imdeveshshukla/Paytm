@@ -44,10 +44,16 @@ router.post("/transfer",authenticate,async(req,res)=>{
     });
 
 
-    if(!receiver || !sender)
+    if(!receiver)
     {
         return res.status(404).json({
-            message:"Invalid Account"
+            message:"Receivers Invalid Account"
+        })
+    }
+    if(!sender)
+    {
+        return res.status(404).json({
+            message:"Senders Invalid Account"
         })
     }
     

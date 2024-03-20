@@ -14,6 +14,14 @@ const userSchema = z.object({
     name:z.string(),
     password:z.string().min(6)
 })
+const signinSchema = z.object({
+    username:z.string().email(),
+    password:z.string().min(6)
+})
+const updateBody = z.object({
+    password:z.string().optional(),
+    name:z.string().optional()
+})
 
 function generateToken(userId){
     return jwt.sign({
@@ -29,6 +37,10 @@ function genHashPass(pass){
     
 }
 
+async function verifyPass(candidatePassword,actualPass) {
+    return await bcrypt.compare(candidatePassword, actualPass);
+  };
+
 function generateBalance(){
     return (Math.floor(Math.random() * 10000) + 1);
 }
@@ -38,22 +50,17 @@ router.post("/signup",async (req,res)=>{
     const password = req.body.password;
     const name = req.body.name;
 
-
-
-
     const validateuser = userSchema.safeParse(userdata);
     if(!validateuser.success)
     {
         return res.json({
                 "Inputs":"Incorrect Inputs",
-                "ERROR":validateuser.error.issues[0]
+                "Error":validateuser.error.issues[0]
             })
     }
     const user =await User.findOne({
         username:userdata.username
     })
-    
-
     if(user)
     {
         return res.json({
@@ -86,10 +93,47 @@ router.post("/signup",async (req,res)=>{
     })
 })
 
-const updateBody = z.object({
-    password:z.string().optional(),
-    name:z.string().optional()
+router.post("/signin",async(req,res)=>{
+    const body = req.body;
+    const username = body.username;
+    const password = body.password;
+
+    const validateuser = signinSchema.safeParse(body);
+    if(!validateuser.success)
+    {
+        return res.json({
+                "Inputs":"Incorrect Inputs",
+                "ERROR":validateuser.error.issues[0]
+            })
+    }
+    const user =await User.findOne({
+        username
+    })
+    if(!user)
+    {
+        return res.json({
+            "Error":"Username Not Exist"
+        });
+    }
+
+    const hashPass = await genHashPass(password);
+    if(!await verifyPass(password,user.password))
+    {
+        return res.json({
+            "Error":"Wrong PassWord"
+        })
+    }
+
+
+
+    const token = generateToken(user._id);
+
+    res.json({
+        Message:"Successfully Login",
+        token : token
+    })
 })
+
 
 router.put("/",authenticate,async(req,res)=>{
     const userid = req.userId;
@@ -114,7 +158,7 @@ router.put("/",authenticate,async(req,res)=>{
 })
 
 
-router.get("/bulk",async(req,res)=>{
+router.get("/bulk",authenticate,async(req,res)=>{
     const filter = req.query.filter || "";
     const regex = new RegExp('^' + filter, 'i');
     const users = await User.find({
@@ -122,7 +166,7 @@ router.get("/bulk",async(req,res)=>{
             $regex:regex
         }
     });
-    console.log(users); //Contain Password which is very unsecure
+    //console.log(users); //Contain Password which is very unsecure
     res.json(users.map(function(user){
         const obj = {
             id: user._id,
