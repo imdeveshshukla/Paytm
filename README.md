@@ -1,25 +1,25 @@
-# Paytm Clone
+# Simple Transaction App
 
-Welcome to the Paytm Clone repository! This project is a web application built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It aims to replicate the functionality of the popular payment platform Paytm.
-
+This project is a web application built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It aims to replicate the functionality of the popular payment platform Paytm.
+This project was created with the primary goal of learning how to implement transactions using MongoDB. Session management was utilized to implement transactional behavior, providing a deeper understanding of database transactions within the MERN stack.
 ## File System
 
 The project structure is organized into two main directories:
 
 ### Backend
 
-The `backend` directory contains all the server-side code written in Express.js. It includes APIs for handling various functionalities such as user authentication, payment processing, transaction history, etc.
+The `backend` directory contains all the server-side code written in Express.js. It includes APIs for handling various functionalities such as user authentication, payment processing.
 
 ### Frontend
 
-The `frontend` directory hosts the React.js application responsible for the user interface (UI) of the Paytm clone. It interacts with the backend APIs to provide users with a seamless experience for making payments, viewing transaction history, managing accounts, and more.
+The `frontend` directory hosts the React.js application responsible for the user interface (UI) of the Paytm clone. It interacts with the backend APIs to provide users with a seamless experience for making payments,managing accounts.
 
 ## Features
 
 The Paytm Clone application offers the following features:
 
 - **User Authentication**: Secure authentication system for users to register, login, and manage their accounts.
-- **Payment Processing**: Integration with payment gateways to facilitate transactions between users and another user.This project was created with the primary goal of learning how to implement transactions using MongoDB. Session management was utilized to implement transactional behavior, providing a deeper understanding of database transactions within the MERN stack.
+- **Payment Processing**: Integration with payment gateways to facilitate transactions between users and another user.
 
 Stay tuned as we continue to enhance the application with more features and improvements!
 
